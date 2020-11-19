@@ -36,13 +36,19 @@ There are several ways to configure running mongodump and mongorestore, but the 
 
 First things first, lets get some real data that we can play with (and use throughout this entire series!). One of the easiest ways is to leverage MongoDB Atlas' sample datasets. If you spin up a cluster there, you can load sample data through their GUI for some interesting data sets to play with. One that I've found particularly interesting is the shipwrecks dataset, so I'll be using that here.
 
-Get your mongodb connection string setup using a database user you create (the GUI can help you here too if you like) and double check that you can connect to it. I usually use `mongo mongodb+srv://mflix-93ext.mongodb.net/sample_geospatial --username mongo_admin -p <password>` to confirm if it's working or not.
+Get your mongodb connection string setup using a database user you create (the GUI can help you here too if you like) and double check that you can connect to it. I usually use:
+```bash
+mongo mongodb+srv://mflix-93ext.mongodb.net/sample_geospatial --username mongo_admin -p <password>
+```
+to confirm if it's working or not.
 
 When the purpose of transferring data is for local debugging, you probably don't have SSL and auth setup locally which makes the command simpler to craft (although if you do, no worries, just check out the documentation to figure out the specific flags you'll need to set).
 
 Now for the one liner to transfer all that data in one quick swoop!
 
-`mongodump --uri mongodb+srv://mongo_admin:<password>@your-host.net/sample_geospatial --archive | mongorestore --archive --uri mongodb://localhost:<desitination port>/sample_geospatial`
+```bash
+mongodump --uri mongodb+srv://mongo_admin:<password>@your-host.net/sample_geospatial --archive | mongorestore --archive --uri mongodb://localhost:<desitination port>/sample_geospatial
+```
 
 Boom! Done!
 
@@ -50,7 +56,9 @@ Let's unpack it a little, because there is some nuance. The `|` operator pipes t
 
 Now that you have sample data locally, lets craft another transfer between separate dbs on our localmachine. If you followed the setup I detailed above, this should do the trick:
 
-`mongodump --uri mongodb://localhost:<port1>/sample_geospatial --archive | mongorestore --archive --uri mongodb://localhost:<destination port>/sample_geospatial`
+```bash
+mongodump --uri mongodb://localhost:<port1>/sample_geospatial --archive | mongorestore --archive --uri mongodb://localhost:<destination port>/sample_geospatial
+```
 
 Nice! Now we can easily move data around without cluttering up our file system by storing mongodumps all over the place!
 

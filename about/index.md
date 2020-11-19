@@ -7,4 +7,5 @@ eleventyNavigation:
   order: 3
 ---
 
-I am a person that writes stuff.
+Jay is a full time remote software developer and lover of adventures.
+
